@@ -119,19 +119,37 @@ LIMIT 10;
 ## 2. Looking at the logs data - what is the number and percentage of the active user base who:
 
 ### 2.1 Have logged blood glucose measurements?
+First, a CTE is created to get the frequency of users with 'blood_glucose' measure.
+After that, the percentage is calculated based on the total of users.
+
 ```sql
-WITH users_with_blood_glucose_measument AS (
+WITH blood_glucose_users AS (
   SELECT
-    DISTINCT id
+    (
+      SELECT
+        COUNT(DISTINCT id)
+      FROM health.user_logs
+      WHERE measure = 'blood_glucose'
+    ) AS blood_glucose_user_frequency,
+    
+    COUNT(DISTINCT id) AS total_users
   FROM health.user_logs
-  WHERE measure = 'blood_glucose'
 )
 
 SELECT
-  COUNT(*)
-FROM users_with_blood_glucose_measument
-LIMIT 10;
+  total_users,
+  blood_glucose_user_frequency,
+  ROUND(
+    100 * blood_glucose_user_frequency / total_users::NUMERIC,
+    2
+  ) AS blood_glucose_user_percentage
+FROM blood_glucose_users;
 ```
+
+| total_users | blood_glucose_user_frequency | blood_glucose_user_percentage |
+|-------------:|------------------------------:|-------------------------------:|
+| 554         | 325                          | 58.66                         |
+
 
 
 
