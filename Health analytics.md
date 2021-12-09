@@ -154,8 +154,73 @@ FROM blood_glucose_users;
 
 
 ### 2.2 Have at least 2 types of measurements?
+
+```sql
+WITH measure_frequencies AS
+(
+  SELECT
+    id,
+    COUNT(measure) AS measure_frequency,
+    COUNT(DISTINCT measure) AS uniques_measure_frequency
+  FROM health.user_logs
+  GROUP BY id
+)
+
+
+SELECT
+  (
+    SELECT COUNT(DISTINCT id) FROM health.user_logs
+  ) AS total_users,
+  
+  COUNT(id) AS users_with_at_least_2_measures_frequency,
+  
+  ROUND (
+    100 * COUNT(id) / ( SELECT COUNT(DISTINCT id) FROM health.user_logs )::NUMERIC,
+    2
+  ) AS users_with_at_least_2_measures_percentage
+
+FROM measure_frequencies
+WHERE uniques_measure_frequency = 3;
+```
+
+
+|total_users|users_with_at_least_2_measures_frequency|users_with_at_least_2_measures_percentage|
+|-----------:|----------------------------------------:|-----------------------------------------:|
+|554        |204                                     |36.82                                    |
+
 ### 2.3 Have all 3 measures - blood glucose, weight and blood pressure?
 
+```sql
+WITH measure_frequencies AS
+(
+  SELECT
+    id,
+    COUNT(measure) AS measure_frequency,
+    COUNT(DISTINCT measure) AS uniques_measure_frequency
+  FROM health.user_logs
+  GROUP BY id
+)
+
+
+SELECT
+  (
+    SELECT COUNT(DISTINCT id) FROM health.user_logs
+  ) AS total_users,
+  
+  COUNT(id) AS users_with_the_3_measures_frequency,
+  
+  ROUND (
+    100 * COUNT(id) / ( SELECT COUNT(DISTINCT id) FROM health.user_logs )::NUMERIC,
+    2
+  ) AS users_with_the_3_measures_percentage
+
+FROM measure_frequencies
+WHERE uniques_measure_frequency = 3;
+```
+
+|total_users|users_with_the_3_measures_frequency|users_with_the_3_measures_percentage|
+|-----------:|----------------------------------------:|-----------------------------------------:|
+|554        |50                                     |9.03                                    |
 ## 3. For users that have blood pressure measurements:
 ### 3.1 What is the median systolic/diastolic blood pressure values?
 
