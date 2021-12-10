@@ -224,3 +224,22 @@ WHERE uniques_measure_frequency = 3;
 ## 3. For users that have blood pressure measurements:
 ### 3.1 What is the median systolic/diastolic blood pressure values?
 
+```sql
+SELECT
+  ROUND(
+      CAST(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY systolic) AS NUMERIC),
+      2
+    ) AS systolic_median,
+    
+  ROUND(
+    CAST(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY diastolic) AS NUMERIC),
+    2
+  ) AS diastolic_median
+FROM health.user_logs
+WHERE measure = 'blood_pressure';
+```
+
+
+|systolic_median|diastolic_median|
+|-----------:|----------------------------------------:
+|126.00        |79.00                                     |
