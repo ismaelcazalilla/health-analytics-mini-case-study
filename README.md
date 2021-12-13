@@ -18,7 +18,7 @@ FROM health.user_logs;
 
 
 ### 1.2 How many total measurements do we have per user on average?
-A temporary table is created, in order to be used in the following questions.
+Creating a temporary table.
 
 ```sql
 DROP TABLE IF EXISTS measure_frequency_by_user;
