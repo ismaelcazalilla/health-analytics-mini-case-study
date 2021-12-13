@@ -11,9 +11,9 @@ SELECT
   COUNT(DISTINCT id) AS unique_users
 FROM health.user_logs;
 ```
-Result: 
-|--------------:| 
+
 | unique_users | 
+|--------------:| 
 | 554          | 
 
 
@@ -37,10 +37,9 @@ SELECT
 FROM measure_frequency_by_user;
 ```
 
-|---------------------:| 
 | avg_measure_by_user | 
+|---------------------:| 
 | 79.23               | 
-
 
 
 ### 1.3 What about the median number of measurements per user?
@@ -53,8 +52,8 @@ SELECT
 FROM measure_frequency_by_user;
 ```
 
-|---------------------:| 
 | median_measurement_by_user | 
+|---------------------:| 
 | 2.00              | 
 
 
@@ -66,8 +65,8 @@ FROM measure_frequency_by_user
 WHERE measure_frequency >= 3;
 ```
 
-|---------------------:| 
 | users_with_more_than_2_measurements | 
+|---------------------:| 
 | 209              | 
 
 
@@ -102,8 +101,8 @@ FROM measure_frequency_by_user
 WHERE measure_frequency >= 1000;
 ```
 
-|---------------------:| 
 | users_with_1000_or_more_measurements | 
+|---------------------:| 
 | 5              | 
 
 
@@ -115,6 +114,7 @@ WHERE measure_frequency >= 1000
 ORDER BY measure_frequency DESC
 LIMIT 10;
 ```
+
 
 ## 2. Looking at the logs data - what is the number and percentage of the active user base who:
 
@@ -149,8 +149,6 @@ FROM blood_glucose_users;
 | total_users | blood_glucose_user_frequency | blood_glucose_user_percentage |
 |-------------:|------------------------------:|-------------------------------:|
 | 554         | 325                          | 58.66                         |
-
-
 
 
 ### 2.2 Have at least 2 types of measurements?
@@ -188,6 +186,7 @@ WHERE uniques_measure_frequency = 3;
 |-----------:|----------------------------------------:|-----------------------------------------:|
 |554        |204                                     |36.82                                    |
 
+
 ### 2.3 Have all 3 measures - blood glucose, weight and blood pressure?
 
 ```sql
@@ -221,6 +220,8 @@ WHERE uniques_measure_frequency = 3;
 |total_users|users_with_the_3_measures_frequency|users_with_the_3_measures_percentage|
 |-----------:|----------------------------------------:|-----------------------------------------:|
 |554        |50                                     |9.03                                    |
+
+
 ## 3. For users that have blood pressure measurements:
 ### 3.1 What is the median systolic/diastolic blood pressure values?
 
