@@ -12,7 +12,6 @@ SELECT
 FROM health.user_logs;
 ```
 Result: 
-|              | 
 |--------------:| 
 | unique_users | 
 | 554          | 
@@ -38,7 +37,6 @@ SELECT
 FROM measure_frequency_by_user;
 ```
 
-|                     | 
 |---------------------:| 
 | avg_measure_by_user | 
 | 79.23               | 
@@ -54,7 +52,7 @@ SELECT
   ) AS median_measurement_by_user
 FROM measure_frequency_by_user;
 ```
-|                     | 
+
 |---------------------:| 
 | median_measurement_by_user | 
 | 2.00              | 
@@ -67,7 +65,7 @@ SELECT
 FROM measure_frequency_by_user
 WHERE measure_frequency >= 3;
 ```
-|                     | 
+
 |---------------------:| 
 | users_with_more_than_2_measurements | 
 | 209              | 
@@ -104,7 +102,6 @@ FROM measure_frequency_by_user
 WHERE measure_frequency >= 1000;
 ```
 
-|                     | 
 |---------------------:| 
 | users_with_1000_or_more_measurements | 
 | 5              | 
