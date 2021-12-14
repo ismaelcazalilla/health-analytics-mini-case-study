@@ -1,7 +1,11 @@
+-- 1.1 How many unique users exist in the logs dataset?
+
 SELECT 
   COUNT(DISTINCT id) AS unique_users
 FROM health.user_logs;
 
+
+-- 1.2 How many total measurements do we have per user on average?
 
 DROP TABLE IF EXISTS measure_frequency_by_user;
 CREATE TEMP TABLE measure_frequency_by_user AS
@@ -19,6 +23,8 @@ SELECT
 FROM measure_frequency_by_user;
 
 
+-- 1.3 What about the median number of measurements per user?
+
 SELECT
   ROUND (
     PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY measure_frequency)::NUMERIC,
@@ -26,6 +32,8 @@ SELECT
   ) AS median_measurement_by_user
 FROM measure_frequency_by_user;
 
+
+-- 1.4 How many users have 3 or more measurements?
 
 SELECT
   COUNT(*) AS users_with_more_than_2_measurements
@@ -40,6 +48,8 @@ ORDER BY measure_frequency DESC
 LIMIT 10;
 
 
+-- 1.5 How many users have 1,000 or more measurements?
+
 SELECT
   COUNT(*) AS users_with_1000_or_more_measurements
 FROM measure_frequency_by_user
@@ -52,6 +62,8 @@ WHERE measure_frequency >= 1000
 ORDER BY measure_frequency DESC
 LIMIT 10;
 
+
+-- 2.1 Have logged blood glucose measurements?
 
 WITH blood_glucose_users AS (
   SELECT
@@ -76,8 +88,9 @@ SELECT
 FROM blood_glucose_users;
 
 
-WITH measure_frequencies AS
-(
+-- 2.2 Have at least 2 types of measurements?
+
+WITH measure_frequencies AS (
   SELECT
     id,
     COUNT(measure) AS measure_frequency,
@@ -101,6 +114,8 @@ SELECT
 FROM measure_frequencies
 WHERE uniques_measure_frequency = 3;
 
+
+-- 2.3 Have all 3 measures - blood glucose, weight and blood pressure?
 
 WITH measure_frequencies AS
 (
@@ -127,6 +142,8 @@ SELECT
 FROM measure_frequencies
 WHERE uniques_measure_frequency = 3;
 
+
+-- 3.1 What is the median systolic/diastolic blood pressure values?
 
 SELECT
   ROUND(
